@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, 
-  FileUser, 
+  User, 
   Briefcase, 
   Search, 
   Settings, 
@@ -17,11 +17,11 @@ const studentRoutes = [
   {
     label: "Dashboard",
     icon: LayoutDashboard,
-    href: "/dashboard",
+    href: "/student/dashboard",
   },
   {
     label: "My Profile",
-    icon: FileUser,
+    icon: User,
     href: "/profile",
   },
   {
@@ -52,7 +52,7 @@ export function Sidebar() {
   return (
     <div className="space-y-4 py-4 flex flex-col h-full bg-slate-900 text-white">
       <div className="px-3 py-2 flex-1">
-        <Link href="/dashboard" className="flex items-center pl-3 mb-14">
+        <Link href="/student/dashboard" className="flex items-center pl-3 mb-14">
           <div className="relative w-8 h-8 mr-4">
             <Bot className="w-8 h-8 text-blue-500" />
           </div>

@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@next-auth/prisma-adapter": "^1.0.7",
+    "class-variance-authority": "^0.7.0",
     "@prisma/client": "^5.11.0",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
