@@ -95,17 +95,47 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
                <img 
                  src="/images/interviewer.png" 
                  alt="Sarah Jenkins" 
-                 className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-[10s] grayscale-[0.2] contrast-[1.1]" 
+                 className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-[10s] grayscale-[0.2] contrast-[1.1] brightness-[0.8]" 
                />
                <div className="absolute inset-0 bg-blue-600/5 animate-pulse mix-blend-overlay" />
             </div>
             
+            {/* AI Speech Dialogue */}
+            <AnimatePresence>
+               {!loading && (
+                 <motion.div 
+                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                   animate={{ opacity: 1, y: 0, scale: 1 }}
+                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 z-20"
+                 >
+                    <div className="bg-blue-600 shadow-[0_20px_50px_rgba(37,99,235,0.4)] p-6 rounded-[2rem] border border-blue-400/30 text-center relative pointer-events-none">
+                       <div className="absolute -top-1 right-2 p-1 bg-white/10 rounded-lg text-white/40 text-[8px] font-black uppercase tracking-widest">AI VOICE ACTIVE</div>
+                       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-600 rotate-45" />
+                       <div className="flex items-center justify-center gap-1.5 mb-3">
+                          {[1,2,3,4,5].map(i => (
+                             <motion.div 
+                               key={i}
+                               animate={{ height: [8, 16, 8] }}
+                               transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.1 }}
+                               className="w-1 bg-white rounded-full"
+                             />
+                          ))}
+                       </div>
+                       <p className="text-white font-black text-[9px] uppercase tracking-widest mb-1 italic opacity-80 underline underline-offset-2">Sarah is Speaking...</p>
+                       <p className="text-[11px] font-bold leading-relaxed line-clamp-3 text-white">
+                         "{currentQuestion.question.slice(0, 100)}..."
+                       </p>
+                    </div>
+                 </motion.div>
+               )}
+            </AnimatePresence>
+
             <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/90 via-transparent to-transparent flex items-end p-10 z-10">
                <div className="flex items-center gap-4">
                  <div className="w-4 h-4 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.8)]" />
                  <div>
-                   <span className="font-extrabold text-sm tracking-wide block leading-none">Sarah Jenkins</span>
-                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 block italic opacity-60">Principal Solutions Architect</span>
+                   <span className="font-extrabold text-sm tracking-wide block leading-none">Sarah Jenkins (Direct AI Interviewer)</span>
+                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 block italic opacity-60">AI ASSESSMENT ENGINE: LIVE</span>
                  </div>
                </div>
             </div>
