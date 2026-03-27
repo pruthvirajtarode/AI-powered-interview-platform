@@ -52,8 +52,10 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
     }
   };
 
+  // Auto-start camera and voice loop
   useEffect(() => {
-    async function fetchQuestions() {
+    async function initInterview() {
+      // 1. Fetch Questions
       try {
         const res = await fetch("/api/interview/generate", {
           method: "POST",
@@ -64,15 +66,32 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
         
         // Speak the first question
         if (data.questions && data.questions[0]) {
-            setTimeout(() => speakAI(data.questions[0].question), 1000);
+            setTimeout(() => speakAI(data.questions[0].question), 1500);
         }
       } catch (err) {
         console.error("Failed to load AI questions");
       } finally {
         setLoading(false);
       }
+
+      // 2. Auto-start Camera
+      try {
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+            video: { width: 1280, height: 720 },
+            audio: true
+        });
+        setStream(mediaStream);
+        setIsCameraOn(true);
+        setTimeout(() => {
+            const videoElement = document.getElementById('candidate-video') as HTMLVideoElement;
+            if (videoElement) videoElement.srcObject = mediaStream;
+        }, 300);
+      } catch (err) {
+        console.warn("Auto-webcam start failed. Use buttons to manual toggle.");
+      }
     }
-    fetchQuestions();
+    
+    initInterview();
     
     return () => {
         if (typeof window !== "undefined") window.speechSynthesis.cancel();
@@ -93,8 +112,6 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
             });
             setStream(mediaStream);
             setIsCameraOn(true);
-            
-            // Link stream to video element
             setTimeout(() => {
                 const videoElement = document.getElementById('candidate-video') as HTMLVideoElement;
                 if (videoElement) videoElement.srcObject = mediaStream;
@@ -107,24 +124,31 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
 
   const handleGiveAnswer = () => {
     setIsAnswering(true);
-    setCandidateTranscript("Transcribing live...");
+    setCandidateTranscript("Transcribing live response...");
     
     setTimeout(() => {
-        const transcript = "I would implement a highly scaleable architecture using Redis for caching and WebSockets for real-time bidirectional communication between the app and server.";
+        const transcript = "In my recent project, I tackled this by implementing a distributed cache layer with Redis Cluster. This significantly reduced latency and ensured high availability across our microservices.";
         setCandidateTranscript(transcript);
         
         setTimeout(() => {
             setIsAnswering(false);
-            const feedback = "Excellent architectural thinking! WebSockets are perfect for that. Let's move to your second challenge.";
+            const feedback = "A very solid architectural choice. Redis Cluster is excellent for horizontally scaling state. Let's move to our next technical scenario.";
             setAiFeedback(feedback);
             speakAI(feedback);
             
+            // AUTOMATIC TRANSITION to next question after feedback
             setTimeout(() => {
                 setAiFeedback(null);
                 setCandidateTranscript("");
-            }, 6000);
+                if (currentQuestionIndex < (questions.length - 1)) {
+                    setCurrentQuestionIndex(prev => prev + 1);
+                    // Automatically speak the next question
+                    const nextQ = questions[currentQuestionIndex + 1];
+                    if (nextQ) setTimeout(() => speakAI(nextQ.question), 1000);
+                }
+            }, 7000);
         }, 2000);
-    }, 3000);
+    }, 4000);
   };
 
   const currentQuestion = questions[currentQuestionIndex] || {
