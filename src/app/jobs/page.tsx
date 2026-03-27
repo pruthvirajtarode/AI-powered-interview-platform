@@ -1,8 +1,4 @@
-"use client";
-
-import { useState } from "react";
-import { Sidebar } from "@/components/sidebar";
-import { Search, MapPin, Briefcase, DollarSign, Clock, ChevronRight, Filter, Building2 } from "lucide-react";
+import Link from "next/link";
 
 const jobListings = [
   { id: 1, title: "Senior Full Stack Developer", company: "TechNova Solutions", location: "Remote", salary: "$120k - $160k", type: "Full-time", posted: "2 days ago", tags: ["React", "Node.js", "Prisma"], match: 94 },
@@ -24,66 +20,74 @@ export default function JobsPage() {
   });
 
   return (
-    <div className="h-full flex">
+    <div className="h-full flex overflow-hidden">
       <div className="hidden md:flex md:w-72 md:flex-col md:fixed md:inset-y-0">
         <Sidebar />
       </div>
-      <main className="md:pl-72 flex-1 bg-slate-50 min-h-screen">
-        <div className="max-w-5xl mx-auto p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-900">Find Jobs</h1>
-            <p className="text-slate-500 mt-1">Discover AI-matched opportunities tailored for you</p>
+      <main className="md:pl-72 flex-1 bg-slate-50 min-h-screen overflow-y-auto">
+        <div className="max-w-5xl mx-auto p-8 lg:p-12">
+          <div className="mb-10 flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-black text-slate-900 tracking-tight">Discover Opportunities</h1>
+              <p className="text-slate-500 mt-2 font-medium">AI-ranked job matches based on your unique skill profile.</p>
+            </div>
           </div>
 
           {/* Search & Filter */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 mb-6 flex flex-col md:flex-row gap-3">
+          <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40 p-5 mb-10 flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Job title, company, or keyword..." className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search by role, company, or stack..." className="w-full pl-12 pr-6 py-4 bg-slate-50/50 border border-slate-100 rounded-2xl text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/5 transition-all font-medium" />
             </div>
-            <div className="relative flex-1 md:max-w-[250px]">
-              <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input type="text" value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)} placeholder="Location..." className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" />
+            <div className="relative flex-1 md:max-w-[280px]">
+              <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input type="text" value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)} placeholder="Location preference..." className="w-full pl-12 pr-6 py-4 bg-slate-50/50 border border-slate-100 rounded-2xl text-slate-900 outline-none focus:ring-4 focus:ring-blue-500/5 transition-all font-medium" />
             </div>
-            <button className="flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium">
+            <button className="flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-2xl hover:bg-blue-600 transition-all font-black text-xs uppercase tracking-widest shadow-lg shadow-slate-900/10">
               <Filter className="w-4 h-4" /> Filters
             </button>
           </div>
 
-          <p className="text-sm text-slate-500 mb-4">{filteredJobs.length} jobs found</p>
+          <div className="flex items-center justify-between mb-6 px-2">
+            <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{filteredJobs.length} Positions Available</p>
+          </div>
 
           {/* Job Cards */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             {filteredJobs.map((job) => (
-              <div key={job.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group">
-                <div className="flex items-start justify-between">
+              <div key={job.id} className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-8 hover:shadow-2xl hover:shadow-blue-900/5 hover:border-blue-200 transition-all group relative">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                        <Building2 className="w-5 h-5 text-blue-600" />
+                    <div className="flex items-center gap-5 mb-5">
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                        <Building2 className="w-7 h-7 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">{job.title}</h3>
-                        <p className="text-slate-500 text-sm">{job.company}</p>
+                        <h3 className="text-2xl font-black text-slate-900 group-hover:text-blue-600 transition-colors tracking-tight">{job.title}</h3>
+                        <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em]">{job.company}</p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4 mt-3 text-sm text-slate-500">
-                      <span className="flex items-center gap-1"><MapPin className="w-4 h-4" />{job.location}</span>
-                      <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" />{job.salary}</span>
-                      <span className="flex items-center gap-1"><Briefcase className="w-4 h-4" />{job.type}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-4 h-4" />{job.posted}</span>
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-slate-500 italic">
+                      <span className="flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg"><MapPin className="w-4 h-4 text-blue-500" />{job.location}</span>
+                      <span className="flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg"><DollarSign className="w-4 h-4 text-emerald-500" />{job.salary}</span>
+                      <span className="flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg"><Briefcase className="w-4 h-4 text-purple-500" />{job.type}</span>
                     </div>
-                    <div className="flex flex-wrap gap-2 mt-3">
+                    <div className="flex flex-wrap gap-2 mt-6">
                       {job.tags.map((tag) => (
-                        <span key={tag} className="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium">{tag}</span>
+                        <span key={tag} className="px-4 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest border border-slate-100">{tag}</span>
                       ))}
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-2 ml-4">
-                    <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm font-semibold border border-green-200">⭐ {job.match}% Match</span>
-                    <button className="flex items-center gap-1 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors mt-2">
-                      Apply Now <ChevronRight className="w-4 h-4" />
-                    </button>
+                  <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-4 border-t lg:border-t-0 lg:border-l border-slate-50 pt-6 lg:pt-0 lg:pl-10">
+                    <div className="text-left lg:text-right">
+                       <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest block mb-1">AI Recommendation</span>
+                       <span className="text-3xl font-black text-slate-900">{job.match}<span className="text-slate-300 text-sm">%</span></span>
+                    </div>
+                    <Link href={`/interview/demo-${job.id}`}>
+                      <button className="flex items-center gap-3 px-10 py-5 bg-blue-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-xl shadow-blue-900/10 active:scale-95 group/btn">
+                        Apply Now <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
