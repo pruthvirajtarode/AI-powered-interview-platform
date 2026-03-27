@@ -91,16 +91,27 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
             animate={{ opacity: 1, y: 0 }}
             className="relative rounded-[2.5rem] overflow-hidden bg-slate-900/40 border border-white/5 group shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)]"
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/80 to-transparent flex items-end p-8">
-               <div className="flex items-center gap-3">
-                 <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse" />
-                 <span className="font-bold text-sm tracking-wide">Sarah Jenkins (Principal Interviewer)</span>
+            <div className="absolute inset-0 z-0 select-none pointer-events-none">
+               <img 
+                 src="/images/interviewer.png" 
+                 alt="Sarah Jenkins" 
+                 className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-[10s] grayscale-[0.2] contrast-[1.1]" 
+               />
+               <div className="absolute inset-0 bg-blue-600/5 animate-pulse mix-blend-overlay" />
+            </div>
+            
+            <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/90 via-transparent to-transparent flex items-end p-10 z-10">
+               <div className="flex items-center gap-4">
+                 <div className="w-4 h-4 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.8)]" />
+                 <div>
+                   <span className="font-extrabold text-sm tracking-wide block leading-none">Sarah Jenkins</span>
+                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 block italic opacity-60">Principal Solutions Architect</span>
+                 </div>
                </div>
             </div>
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center font-black text-4xl text-white shadow-2xl">SJ</div>
-            </div>
-             <div className="absolute top-8 right-8 px-4 py-2 bg-black/40 backdrop-blur-md rounded-2xl border border-white/5 text-[10px] font-bold text-blue-400">REMOTE CONNECTION STABLE</div>
+             <div className="absolute top-8 right-8 px-5 py-2.5 bg-black/60 backdrop-blur-2xl rounded-2xl border border-white/10 text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] shadow-2xl z-10">
+               HD 1080P • LIVE
+             </div>
           </motion.div>
 
           {/* Candidate */}
@@ -110,22 +121,30 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
             transition={{ delay: 0.2 }}
             className="relative rounded-[2.5rem] overflow-hidden bg-slate-900/40 border border-white/5 group shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)]"
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/80 to-transparent flex items-end p-8">
-              <div className="flex items-center gap-3">
-                 <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse" />
-                 <span className="font-bold text-sm tracking-wide">Candidate: Pruthviraj Tarode (You)</span>
+            <div className="absolute inset-0 z-0 select-none pointer-events-none">
+               <img 
+                 src="/images/candidate.png" 
+                 alt="Candidate" 
+                 className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-[10s]" 
+               />
+            </div>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/90 via-transparent to-transparent flex items-end p-10 z-10">
+              <div className="flex items-center gap-4">
+                 <div className="w-4 h-4 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.8)]" />
+                 <div>
+                   <span className="font-extrabold text-sm tracking-wide block leading-none">Pruthviraj Tarode</span>
+                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 block italic opacity-60">Mastering AI Integration</span>
+                 </div>
               </div>
             </div>
-            <div className="w-full h-full flex items-center justify-center">
-               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center font-black text-4xl text-white shadow-2xl">PT</div>
-            </div>
             
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-slate-950/80 backdrop-blur-2xl p-3 rounded-[2rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-              <Button size="icon" variant="ghost" className="w-12 h-12 rounded-2xl hover:bg-white/10 text-white"><Mic className="w-5 h-5" /></Button>
-              <Button size="icon" variant="ghost" className="w-12 h-12 rounded-2xl hover:bg-white/10 text-white"><Video className="w-5 h-5" /></Button>
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-5 bg-slate-950/90 backdrop-blur-3xl p-4 rounded-[2.5rem] border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,1)] z-20">
+              <Button size="icon" variant="ghost" className="w-14 h-14 rounded-full hover:bg-white/10 text-white bg-slate-900/50"><Mic className="w-6 h-6" /></Button>
+              <Button size="icon" variant="ghost" className="w-14 h-14 rounded-full hover:bg-white/10 text-white bg-slate-900/50"><Video className="w-6 h-6" /></Button>
               <div className="w-px h-8 bg-white/10 mx-1" />
-              <Button size="icon" variant="ghost" className={`w-12 h-12 rounded-2xl transition-all ${activeTab === 'code' ? 'bg-blue-600 text-white' : 'hover:bg-white/10 text-white'}`} onClick={() => setActiveTab('code')}><CodeIcon className="w-5 h-5" /></Button>
-              <Button size="icon" variant="ghost" className="w-12 h-12 rounded-2xl hover:bg-white/10 text-white"><MessageSquare className="w-5 h-5" /></Button>
+              <Button size="icon" variant="ghost" className={`w-14 h-14 rounded-full transition-all ${activeTab === 'code' ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' : 'hover:bg-white/10 text-white bg-slate-900/50'}`} onClick={() => setActiveTab('code')}><CodeIcon className="w-6 h-6" /></Button>
+              <Button size="icon" variant="ghost" className="w-14 h-14 rounded-full hover:bg-white/10 text-white bg-slate-900/50"><MessageSquare className="w-6 h-6" /></Button>
             </div>
           </motion.div>
         </div>
