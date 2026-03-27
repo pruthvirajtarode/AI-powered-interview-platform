@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import { Sidebar } from "@/components/sidebar";
+import { Search, MapPin, Briefcase, DollarSign, Clock, ChevronRight, Filter, Building2 } from "lucide-react";
 import Link from "next/link";
 
 const jobListings = [
