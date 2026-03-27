@@ -52,6 +52,8 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
     }
   };
 
+  const [evaluationProgress, setEvaluationProgress] = useState(0);
+
   // Auto-start camera and voice loop
   useEffect(() => {
     async function initInterview() {
@@ -125,16 +127,19 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
   const handleGiveAnswer = () => {
     setIsAnswering(true);
     setCandidateTranscript("Transcribing live response...");
+    setEvaluationProgress(30);
     
     setTimeout(() => {
         const transcript = "In my recent project, I tackled this by implementing a distributed cache layer with Redis Cluster. This significantly reduced latency and ensured high availability across our microservices.";
         setCandidateTranscript(transcript);
+        setEvaluationProgress(65);
         
         setTimeout(() => {
             setIsAnswering(false);
             const feedback = "A very solid architectural choice. Redis Cluster is excellent for horizontally scaling state. Let's move to our next technical scenario.";
             setAiFeedback(feedback);
             speakAI(feedback);
+            setEvaluationProgress(94);
             
             // AUTOMATIC TRANSITION to next question after feedback
             setTimeout(() => {
@@ -142,6 +147,7 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
                 setCandidateTranscript("");
                 if (currentQuestionIndex < (questions.length - 1)) {
                     setCurrentQuestionIndex(prev => prev + 1);
+                    setEvaluationProgress(prev => Math.min(prev + 5, 100));
                     // Automatically speak the next question
                     const nextQ = questions[currentQuestionIndex + 1];
                     if (nextQ) setTimeout(() => speakAI(nextQ.question), 1000);
@@ -405,12 +411,22 @@ export default function InterviewRoom({ params }: { params: { id: string } }) {
                      <BrainCircuit className="w-80 h-80" />
                   </div>
                   <h4 className="text-[12px] font-black text-blue-400 uppercase tracking-[0.5em] mb-6 decoration-blue-500 underline underline-offset-8">Candidate Fit Index</h4>
-                  <div className="flex items-end gap-6 mb-8 relative">
-                    <span className="text-8xl font-black text-white tracking-tighter drop-shadow-[0_10px_30px_rgba(59,130,246,0.3)]">94</span>
-                    <span className="text-4xl font-black text-blue-500 pb-5 tracking-widest">%</span>
+                  <div className="flex items-end gap-5 mb-6">
+                    <span className="text-7xl font-black text-white tracking-tighter">{evaluationProgress || 94}</span>
+                    <span className="text-2xl font-black text-blue-500 pb-3 h-full flex items-end tracking-widest">%</span>
                   </div>
-                  <p className="text-base text-slate-300 font-bold leading-relaxed max-w-[85%] italic opacity-90 border-l-4 border-blue-500 pl-6 py-2">
-                    Candidate's system architecture concepts align perfectly with current enterprise-level deployment patterns.
+                  
+                  {/* Evaluation Progress Bar */}
+                  <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden mb-8 border border-white/5">
+                    <motion.div 
+                      initial={{ width: "0%" }}
+                      animate={{ width: `${evaluationProgress}%` }}
+                      className="h-full bg-gradient-to-r from-blue-600 to-indigo-500 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                    />
+                  </div>
+
+                  <p className="text-sm text-slate-400 font-bold leading-relaxed max-w-[90%] italic opacity-80 decoration-blue-500 underline underline-offset-8">
+                    {evaluationProgress > 80 ? 'Elite system architecture alignment detected.' : 'Analyzing candidate fit index...'}
                   </p>
                 </div>
 
